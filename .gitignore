@@ -332,3 +332,7 @@ ASALocalRun/
 #idea configuration file
 /.idea
 *.iml
+
+#eclipse configuration file
+.classpath
+.project
