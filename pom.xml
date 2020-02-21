@@ -52,6 +52,13 @@
             <version>0.3.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/net.sf.jgap/jgap -->
+        <dependency>
+            <groupId>net.sf.jgap</groupId>
+            <artifactId>jgap</artifactId>
+            <version>3.4.4</version>
+        </dependency>
+
     </dependencies>
     <!--项目编码方式-->
     <properties>
@@ -64,7 +71,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.6.2</version>
                 <configuration>
                     <target>1.8</target>
                     <source>1.8</source>

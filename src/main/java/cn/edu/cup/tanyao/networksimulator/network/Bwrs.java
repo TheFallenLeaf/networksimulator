@@ -412,6 +412,5 @@ public class Bwrs {
     public void setComponent(double[] c) {
         component = c;
     }
-
 }
 

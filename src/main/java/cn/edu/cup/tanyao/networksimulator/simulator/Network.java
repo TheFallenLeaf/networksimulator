@@ -5,6 +5,7 @@ import cn.edu.cup.tanyao.networksimulator.network.Gas;
 import cn.edu.cup.tanyao.networksimulator.network.Node;
 import cn.edu.cup.tanyao.networksimulator.network.Pipe;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -129,5 +130,17 @@ public class Network {
 
     public Gas getGas () {
         return this.gas;
+    }
+
+    @Override
+    public String toString() {
+        DecimalFormat decimalFormat = new DecimalFormat("##.####");
+
+        String pressure = "节点压力:";
+        for (int i = 0; i < nodes.length; i++) {
+            pressure += "\n";
+            pressure += decimalFormat.format(nodes[i].getPressure());
+        }
+        return pressure;
     }
 }

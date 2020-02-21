@@ -39,6 +39,11 @@ public class NewtonMethod {
         return count;
     }
 
+    /**
+     * 根据未知数求完整节点压力矩阵
+     * @param unknown 未知数x
+     * @return
+     */
     private double[][] getPressure (SimpleMatrix unknown) {
         int nodeCount = network.getNodes().length;
         double[][] pressure = new double[nodeCount][1];
@@ -134,6 +139,7 @@ public class NewtonMethod {
         double dx = 0.0000001;
         for (int i = 0; i < unknownPressure.numRows(); i++) {
             SimpleMatrix x2 = new SimpleMatrix(unknownPressure);
+            //x2
             x2.setRow(i, 0, unknownPressure.get(i, 0)+dx);
             //F(x2)
             SimpleMatrix fx2 = getFunction(x2);
@@ -162,6 +168,7 @@ public class NewtonMethod {
 
 //        SimpleMatrix var1 = getFunction(unknownPressure);
 
+        //计算结果赋值
         int flag = 0;
         for (int i = 0; i < network.getNodes().length; i++) {
             if (!network.getNodes()[i].getPressureState()) {

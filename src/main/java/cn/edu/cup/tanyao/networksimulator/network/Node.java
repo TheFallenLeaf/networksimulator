@@ -38,9 +38,22 @@ public class Node {
      */
     private boolean loadState;
 
+    /**
+     * 节点是否有载荷
+     */
+    private boolean nodeState;
+
     public Node () {
         id ++;
         this.uid = id;
+    }
+
+    public boolean getNodeState() {
+        return nodeState;
+    }
+
+    public void setNodeState(boolean nodeState) {
+        this.nodeState = nodeState;
     }
 
     public void setElevation (double elevation) {
