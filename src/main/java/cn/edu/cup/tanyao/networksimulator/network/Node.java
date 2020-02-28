@@ -11,8 +11,6 @@ public class Node {
      */
     private int uid;
 
-    private static int id = 0;
-
     /**
      * 节点海拔, m
      */
@@ -43,9 +41,8 @@ public class Node {
      */
     private boolean nodeState;
 
-    public Node () {
-        id ++;
-        this.uid = id;
+    public Node (int uid) {
+        this.uid = uid;
     }
 
     public boolean getNodeState() {

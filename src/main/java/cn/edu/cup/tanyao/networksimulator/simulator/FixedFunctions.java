@@ -79,12 +79,23 @@ public class FixedFunctions {
         for (int i = 0; i < pipeCount; i++) {
             //管段起点编号,network.getElements()[i].getStartNode().getUid()
             //管段终点编号,network.getElements()[i].getEndNode().getUid()
-            int start = network.getElements()[i].getStartNode().getUid();
-            int end = network.getElements()[i].getEndNode().getUid();
+            int startNumber = network.getElements()[i].getStartNode().getUid();
+            int endNumber = network.getElements()[i].getEndNode().getUid();
+            //编号所对应的序列
+            int start = 0;
+            int end = 0;
+            for (int j = 0; j < network.getNodes().length; j++) {
+                if (network.getNodes()[j].getUid() == startNumber) {
+                    start = j;
+                }
+                if (network.getNodes()[j].getUid() == endNumber) {
+                    end = j;
+                }
+            }
             //节点start在管段i的始端
-            pipes[start-1][i] = 1;
+            pipes[start][i] = 1;
             //节点end在管段i的终端
-            pipes[end-1][i] = -1;
+            pipes[end][i] = -1;
         }
         //根绝节点-管段关联数组生成节点-管段关联矩阵
         this.incidence = new SimpleMatrix(pipes);

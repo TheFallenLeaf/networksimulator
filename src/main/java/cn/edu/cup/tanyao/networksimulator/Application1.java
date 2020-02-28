@@ -4,7 +4,6 @@ import cn.edu.cup.tanyao.networksimulator.data.NetworkData;
 import cn.edu.cup.tanyao.networksimulator.simulator.Network;
 import cn.edu.cup.tanyao.networksimulator.simulator.NewtonMethod;
 
-
 /**
  * @author tanyao
  * @date 2019/12/2

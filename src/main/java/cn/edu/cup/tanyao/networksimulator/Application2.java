@@ -23,15 +23,13 @@ public class Application2 {
         System.out.println("--------------------");
 
         //管网数据对象
-        NPLData nplData = DataSetting.set(data);
+        NPLData nplData = DataSetting.setNPL(data);
 
         //管网优化对象
         System.out.println("创建管网对象...");
         NPLNetwork nplNetwork = new NPLNetwork();
-        nplNetwork.init(
-                nplData.getNodes(), nplData.getPipes(),
-                nplData.getComponent(), nplData.getProductions(),
-                nplData.getWells());
+
+        nplNetwork.init(nplData);
         System.out.println("--------------------");
         //管网计算
         NPLSolve nplSolve = new NPLSolve(nplNetwork);

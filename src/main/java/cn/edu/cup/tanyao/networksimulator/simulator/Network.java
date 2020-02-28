@@ -41,10 +41,12 @@ public class Network {
     public void setNodes (List<List<String>> nodesSource) {
         Node[] nodes = new Node[nodesSource.size()];
         for (int i = 0; i < nodes.length; i++) {
-            //创建新的节点对象
-            Node node = new Node();
             //获取节点参数对象
             List<String> nodeSource = nodesSource.get(i);
+            //节点编号
+            int uid = (int) Double.parseDouble(nodeSource.get(0));
+            //创建新的节点对象
+            Node node = new Node(uid);
             //设置节点压力
             node.setPressure(Double.parseDouble(nodeSource.get(1)));
             //设置节点压力状态
@@ -70,12 +72,25 @@ public class Network {
         for (int i = 0; i < elements.length; i++) {
             //创建管网元件参数对象
             List<String> elementSource = elementsSource.get(i);
+            //管段编号
+            int uid = (int) Double.parseDouble(elementSource.get(0));
             //元件起点编号
             int startNumber = (int) Double.parseDouble(elementSource.get(1));
             //元件终点编号
             int endNumber = (int) Double.parseDouble(elementSource.get(2));
+            //根据节点编号寻找节点
+            Node startNode = null;
+            Node endNode = null;
+            for (int j = 0; j < this.nodes.length; j++) {
+                if (this.nodes[j].getUid() == startNumber) {
+                    startNode = this.nodes[j];
+                }
+                if (this.nodes[j].getUid() == endNumber) {
+                    endNode = this.nodes[j];
+                }
+            }
             //创建新的管网元件
-            Pipe pipe = new Pipe(this.nodes[startNumber-1], this.nodes[endNumber-1]);
+            Pipe pipe = new Pipe(startNode, endNode, uid);
             //设置管段长度
             pipe.setLength(Double.parseDouble(elementSource.get(3)));
             //设置管段内径

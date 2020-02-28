@@ -1,9 +1,9 @@
 package cn.edu.cup.tanyao.networksimulator.optimize;
 
+import cn.edu.cup.tanyao.networksimulator.data.NPLData;
 import cn.edu.cup.tanyao.networksimulator.network.*;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,10 +19,12 @@ public class NPLNetwork {
     public void setNodes(List<List<String>> nodesSource){
         Node[] nodes = new Node[nodesSource.size()];
         for (int i = 0; i < nodes.length; i++) {
-            //创建新的节点对象
-            Node node = new Node();
             //获取节点参数对象
             List<String> nodeSource = nodesSource.get(i);
+            //节点编号
+            int uid = (int) Double.parseDouble(nodeSource.get(0));
+            //创建新的节点对象
+            Node node = new Node(uid);
             //设置节点海拔
             node.setElevation(Double.parseDouble(nodeSource.get(1)));
             //节点是否有载荷
@@ -42,12 +44,25 @@ public class NPLNetwork {
         for (int i = 0; i < pipes.length; i++) {
             //创建管段数据对象
             List<String> pipeSource = pipesSource.get(i);
+            //管段编号
+            int uid = (int) Double.parseDouble(pipeSource.get(0));
             //管段起点编号
             int startNumber = (int) Double.parseDouble(pipeSource.get(1));
             //管段终点编号
             int endNumber = (int) Double.parseDouble(pipeSource.get(2));
+            //根据节点编号寻找节点
+            Node startNode = null;
+            Node endNode = null;
+            for (int j = 0; j < this.nodes.length; j++) {
+                if (this.nodes[j].getUid() == startNumber) {
+                    startNode = this.nodes[j];
+                }
+                if (this.nodes[j].getUid() == endNumber) {
+                    endNode = this.nodes[j];
+                }
+            }
             //创建管段对象
-            Pipe pipe = new Pipe(this.nodes[startNumber-1], this.nodes[endNumber-1]);
+            Pipe pipe = new Pipe(startNode, endNode, uid);
             //设置管段长度
             pipe.setLength(Double.parseDouble(pipeSource.get(3)));
             //设置管段内径
@@ -94,7 +109,8 @@ public class NPLNetwork {
                 xi[j] = Double.parseDouble(productions.get(j+1).get(0));
                 yi[j] = Double.parseDouble(productions.get(j+1).get(flag));
             }
-            IPR ipr = new IPR(xi, yi, 3);
+            IPR ipr = new IPR();
+            ipr.init(xi, yi, 3);
             well.setIpr(ipr);
 
             wells[i] = well;
@@ -102,25 +118,28 @@ public class NPLNetwork {
         this.wells = wells;
     }
 
-    /**
-     *
-     * @param nodesSource
-     * @param pipesSource
-     * @param components
-     * @param productions
-     * @param wellInfo
-     */
-    public void init(List<List<String>> nodesSource,
-                     List<List<String>> pipesSource,
-                     List<List<String>> components,
-                     List<List<String>> productions,
-                     List<List<String>> wellInfo){
-        //必须先设置节点
-        setNodes(nodesSource);
-        setPipes(pipesSource);
-        setGas(components);
+    public void init(NPLData nplData) {
+        setNodes(nplData.getNodes());
+        setPipes(nplData.getPipes());
+        setGas(nplData.getComponent());
 
-        setWells(productions, wellInfo);
+        setWells(nplData.getProductions(), nplData.getWells());
+    }
+
+    public void setNodes(Node[] nodes) {
+        this.nodes = nodes;
+    }
+
+    public void setPipes(Pipe[] pipes) {
+        this.pipes = pipes;
+    }
+
+    public void setGas(Gas gas) {
+        this.gas = gas;
+    }
+
+    public void setWells(Well[] wells) {
+        this.wells = wells;
     }
 
     public Node[] getNodes() {

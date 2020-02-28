@@ -6,11 +6,6 @@ package cn.edu.cup.tanyao.networksimulator.network;
  */
 public abstract class Element {
     /**
-     *
-     */
-    private static int id = 0;
-
-    /**
      * 元件编号
      */
     private int uid;
@@ -30,9 +25,8 @@ public abstract class Element {
      * @param startNode 起始节点
      * @param endNode 终止节点
      */
-    public Element (Node startNode, Node endNode) {
-        id ++;
-        this.uid = id;
+    public Element (Node startNode, Node endNode, int uid) {
+        this.uid = uid;
         this.startNode = startNode;
         this.endNode = endNode;
     }

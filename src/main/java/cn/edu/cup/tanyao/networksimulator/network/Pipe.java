@@ -31,8 +31,8 @@ public class Pipe extends Element {
      */
     private double lambda;
 
-    public Pipe(Node startNode, Node endNode) {
-        super(startNode, endNode);
+    public Pipe(Node startNode, Node endNode, int uid) {
+        super(startNode, endNode, uid);
     }
 
     /**

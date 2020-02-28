@@ -51,4 +51,9 @@ public interface Constant {
      * 20℃空气密度，kg/m³
      */
     double airDensity = 1.29;
+
+    /**
+     * 理想气体绝热指数
+     */
+    double k = 1.29;
 }

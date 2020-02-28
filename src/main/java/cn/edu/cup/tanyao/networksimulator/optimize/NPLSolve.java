@@ -1,7 +1,6 @@
 package cn.edu.cup.tanyao.networksimulator.optimize;
 
 import cn.edu.cup.tanyao.networksimulator.network.Constant;
-import cn.edu.cup.tanyao.networksimulator.network.Well;
 import org.ejml.simple.SimpleMatrix;
 
 /**
@@ -150,24 +149,7 @@ public class NPLSolve {
         return var16.mult(var15).minus(var17);
     }
 
-    public void run() {
-        //初始化未知数
-        SimpleMatrix unknownPressure = new SimpleMatrix(initPressure());
-        //初始化未知数相关的量
-        SimpleMatrix jacobi = calculateJacobi(unknownPressure);
-        SimpleMatrix deltaPressure = jacobi.solve(getFunction(unknownPressure).scale(-1));
-        for (int i = 0; i < 100; i++) {
-            if (deltaPressure.elementMaxAbs() < 0.000000001) {
-                System.out.println("迭代次数：" + i);
-                break;
-            }
-            unknownPressure = unknownPressure.plus(deltaPressure.scale(0.5));
-            jacobi = calculateJacobi(unknownPressure);
-            deltaPressure = jacobi.solve(getFunction(unknownPressure).scale(-1));
-        }
-
-        //SimpleMatrix var1 = getFunction(unknownPressure);
-
+    private void setResult(SimpleMatrix unknownPressure) {
         //计算结果赋值
         int flag = 0;
         for (int i = 0; i < nplNetwork.getNodes().length; i++) {
@@ -214,5 +196,26 @@ public class NPLSolve {
                 nplNetwork.getNodes()[i].setLoad(load);
             }
         }
+    }
+
+    public void run() {
+        //初始化未知数
+        SimpleMatrix unknownPressure = new SimpleMatrix(initPressure());
+        //初始化未知数相关的量
+        SimpleMatrix jacobi = calculateJacobi(unknownPressure);
+        SimpleMatrix deltaPressure = jacobi.solve(getFunction(unknownPressure).scale(-1));
+        for (int i = 0; i < 100; i++) {
+            if (deltaPressure.elementMaxAbs() < 0.000000001) {
+                System.out.println("迭代次数：" + i);
+                break;
+            }
+            unknownPressure = unknownPressure.plus(deltaPressure.scale(0.5));
+            jacobi = calculateJacobi(unknownPressure);
+            deltaPressure = jacobi.solve(getFunction(unknownPressure).scale(-1));
+        }
+
+        //SimpleMatrix var1 = getFunction(unknownPressure);
+        //保留计算结果
+        setResult(unknownPressure);
     }
 }

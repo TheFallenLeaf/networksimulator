@@ -55,13 +55,24 @@ public class EstimatedFunctions {
 
         for (int i = 0; i < pipeCount; i++) {
             //管段起点
-            int start = network.getElements()[i].getStartNode().getUid();
+            int startNumber = network.getElements()[i].getStartNode().getUid();
             //管段终点
-            int end = network.getElements()[i].getEndNode().getUid();
+            int endNumber = network.getElements()[i].getEndNode().getUid();
+            //根据节点编号寻找序列
+            int start = 0;
+            int end = 0;
+            for (int j = 0; j < network.getNodes().length; j++) {
+                if (network.getNodes()[j].getUid() == startNumber) {
+                    start = j;
+                }
+                if (network.getNodes()[j].getUid() == endNumber) {
+                    end = j;
+                }
+            }
             //起点压力
-            startPressure[i][0] = pressure[start-1][0];
+            startPressure[i][0] = pressure[start][0];
             //终点压力
-            endPressure[i][0] = pressure[end-1][0];
+            endPressure[i][0] = pressure[end][0];
 
             Bwrs bwrs = new Bwrs(network.getGas().getComponent());
             bwrs.init((startPressure[i][0] + endPressure[i][0]) * 500, Constant.temperature);

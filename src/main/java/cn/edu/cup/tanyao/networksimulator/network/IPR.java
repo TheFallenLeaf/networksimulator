@@ -19,7 +19,7 @@ public class IPR {
      */
     private double[] coefficient;
 
-    public IPR(double[] xi, double[] yi, int degree){
+    public void init(double[] xi, double[] yi, int degree) {
         this.degree = degree;
         WeightedObservedPoints points = new WeightedObservedPoints();
         for (int i = 0; i < xi.length; i++) {
@@ -36,13 +36,5 @@ public class IPR {
             value += coefficient[i] * Math.pow(x, i);
         }
         return value;
-    }
-
-    public static void main(String[] args) {
-        double[] xi = {2.1, 2.2, 2.3, 2.4, 2.5};
-        double[] yi = {2500, 2400, 2200, 2000, 1500};
-        IPR ipr = new IPR(xi, yi, 2);
-        double y = ipr.fit(2.05);
-        System.out.println(y);
     }
 }

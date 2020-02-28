@@ -3,6 +3,7 @@ package cn.edu.cup.tanyao.networksimulator.optimize;
 import cn.edu.cup.tanyao.networksimulator.network.Bwrs;
 import cn.edu.cup.tanyao.networksimulator.network.Constant;
 import cn.edu.cup.tanyao.networksimulator.network.Well;
+import org.apache.poi.xwpf.usermodel.FootnoteEndnoteIdManager;
 import org.ejml.simple.SimpleMatrix;
 
 /**
@@ -57,13 +58,24 @@ public class EstimatedFunctions {
 
         for (int i = 0; i < pipeCount; i++) {
             //管段起点
-            int start = nplNetwork.getPipes()[i].getStartNode().getUid();
+            int startNumber = nplNetwork.getPipes()[i].getStartNode().getUid();
             //管段终点
-            int end = nplNetwork.getPipes()[i].getEndNode().getUid();
+            int endNumber = nplNetwork.getPipes()[i].getEndNode().getUid();
+            //根据节点编号寻找序列
+            int start = 0;
+            int end = 0;
+            for (int j = 0; j < nplNetwork.getNodes().length; j++) {
+                if (nplNetwork.getNodes()[j].getUid() == startNumber) {
+                    start = j;
+                }
+                if (nplNetwork.getNodes()[j].getUid() == endNumber) {
+                    end = j;
+                }
+            }
             //起点压力
-            startPressure[i][0] = pressure[start-1][0];
+            startPressure[i][0] = pressure[start][0];
             //终点压力
-            endPressure[i][0] = pressure[end-1][0];
+            endPressure[i][0] = pressure[end][0];
 
             Bwrs bwrs = new Bwrs(nplNetwork.getGas().getComponent());
             bwrs.init((startPressure[i][0] + endPressure[i][0]) * 500, Constant.temperature);
